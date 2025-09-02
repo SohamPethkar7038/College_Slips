@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bookstore>
+    <Category name="Yoga">
+        <Book>
+            <Book_Title>The Art of Yoga</Book_Title>
+            <Book_Author>Swami Vivekananda</Book_Author>
+            <Book_Price>500</Book_Price>
+        </Book>
+        <Book>
+            <Book_Title>Yoga for Beginners</Book_Title>
+            <Book_Author>John Doe</Book_Author>
+            <Book_Price>300</Book_Price>
+        </Book>
+    </Category>
+
+    <Category name="Story">
+        <Book>
+            <Book_Title>The Adventures of Sherlock Holmes</Book_Title>
+            <Book_Author>Arthur Conan Doyle</Book_Author>
+            <Book_Price>400</Book_Price>
+        </Book>
+        <Book>
+            <Book_Title>The Jungle Book</Book_Title>
+            <Book_Author>Rudyard Kipling</Book_Author>
+            <Book_Price>350</Book_Price>
+        </Book>
+    </Category>
+
+    <Category name="Technical">
+        <Book>
+            <Book_Title>Introduction to Algorithms</Book_Title>
+            <Book_Author>Thomas H. Cormen</Book_Author>
+            <Book_Price>1200</Book_Price>
+        </Book>
+        <Book>
+            <Book_Title>Clean Code</Book_Title>
+            <Book_Author>Robert C. Martin</Book_Author>
+            <Book_Price>800</Book_Price>
+        </Book>
+    </Category>
+</Bookstore>

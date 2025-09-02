@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voter Registration</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+   <h2>Voter Registration</h2>
+   <form id="registrationForm">
+       <label for="name">Name (Upper Case Letters only):</label><br>
+       <input type="text" id="name" name="name" required><br><br>
+
+       <label for="age">Age (Should be 18 years or above):</label><br>
+       <input type="number" id="age" name="age" min="18" required><br><br>
+
+       <input type="hidden" id="nationality" name="nationality" value="Indian">
+
+       <input type="submit" value="Register">
+   </form>
+   <div id="registrationMessage"></div>
+   <script src="script.js"></script>
+</body>
+</html>

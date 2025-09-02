@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Contact Details</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+$(document).ready(function(){
+    $("#printBtn").click(function(){
+        $.get("contact.dat", function(data){
+            var lines = data.trim().split("\n");
+            var table = "<table border='1'><tr><th>Sr No</th><th>Name</th><th>Residence No</th><th>Mobile No</th><th>Address</th></tr>";
+
+            lines.forEach(function(line) {
+                table += "<tr><td>" + line.split(",").join("</td><td>") + "</td></tr>";
+            });
+
+            table += "</table>";
+            $("#contactTable").html(table);
+        }).fail(function() {
+            alert("Error loading contact file.");
+        });
+    });
+});
+</script>
+</head>
+<body>
+
+<h2>Contact Details</h2>
+<button id="printBtn">Print Contact Details</button>
+<div id="contactTable"></div>
+
+</body>
+</html>

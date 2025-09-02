@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<books>
+    <book>
+        <book_name>The Great</book_name>
+        <author>F. Scott</author>
+        <pub>Charles</pub>
+        <price>10.99</price>
+    </book>
+    <book>
+        <book_name>To Kill a Mockingbird</book_name>
+        <author>Harper Lee</author>
+        <pub>J.B. Lippincott Co.</pub>
+        <price>12.50</price>
+    </book>
+</books>

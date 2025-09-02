@@ -1,0 +1,227 @@
+ create table customer(cno int primary key,
+					 cname varchar(20),
+					 city varchar(20));
+
+create table account(ano int primary key,
+					a_type varchar(20),
+					 opening_date date,
+					balance int,
+					cno int references customer on delete cascade);
+
+
+insert into customer values(1,'aneesh','pimpri saudagar');
+insert into customer values(2,'parth','pimpri');
+insert into customer values(3,'soham','chakan');
+insert into customer values(4,'swapnaj','pune');
+
+
+insert into account values(101,'personal','2-12-2019',50000,1);
+insert into account values(102,'nominal','02-26-2018',60000,1);
+insert into account values(103,'personal','5-21-2020',75000,2);
+insert into account values(104,'official','4-14-2022',80000,2);
+insert into account values(105,'nominal','11-15-2016',90000,3);
+insert into account values(106,'real','08-10-2015',10000,3);
+insert into account values(107,'nominal','1-17-2013',200000,4);
+insert into account values(108,'real','7-19-2023',81000,4);
+
+1.
+create function detailaccount(account_number int) returns void as'
+declare
+r record;
+begin
+select into r * from account,customer where customer.cno=account.cno and 
+account.ano=account_number;
+raise notice ''% % % % %'',r.ano,r.a_type,r.opening_date,r.balance,r.cno;
+end;
+'language 'plpgsql';
+
+2.
+create or replace function accountdetail(customer_name varchar(20)) returns void as'
+declare
+c1 cursor for select account.ano,a_type,opening_date,balance,customer.cno from 
+account,customer where customer.cno=account.cno and
+customer.cname=customer_name;
+r record;
+begin
+open c1;
+loop
+fetch c1 into r;
+exit when not found;
+raise notice''% % % % % '',r.ano,r.a_type,r.opening_date,r.balance,r.cno;
+end loop;
+close c1;
+end;
+'language 'plpgsql';
+
+
+
+
+3.
+create function checkbalance() returns trigger as'
+begin
+if(new.balance<1000) then
+raise exception ''your balance should not less than be 10000'';
+else
+return new;
+end if;
+end;
+'language 'plpgsql';
+
+create or replace trigger t1 before insert on account for each row 
+execute procedure checkbalance();
+
+
+   
+
+                                                                assingment -7 ques=2
+
+
+1.here output is giving ano but we want number of ano
+create or replace function numberaccount() returns void as'
+declare
+r record;
+begin
+select into r * from account,customer where customer.cno=account.cno and 
+account.opening_date=''5-21-2020'';
+raise notice ''% '',r.ano;
+end;
+'language 'plpgsql';
+
+ 
+
+
+2.
+create or replace function punedetail() returns void as'
+declare
+c1 cursor for select cno,cname,city from customer where customer.city=''pune'';
+r record;
+begin
+open c1;
+loop
+fetch c1 into r;
+exit when not found;
+raise notice''% % %'',r.cno,r.cname,r.city;
+end loop;
+close c1;
+end;
+'language 'plpgsql';
+
+
+
+
+3. not working
+create or replace function checkdelete() returns trigger as'
+begin
+if(old.account=account.ano,account.a_type,account.opening_date,account.balance,account.cno)then
+raise exception ''you can delete records'';
+else
+return old;
+end if;
+end;
+'language 'plpgsql';
+
+create or replace trigger t1 before delete on account for each row execute
+procedure checkdelete();
+
+
+
+
+
+
+
+                                                               assingment 7   que=3
+
+1.
+
+
+
+
+
+
+
+
+
+
+
+2.
+create or replace function citydetail(city_name varchar(20)) returns void as'
+declare
+c1 cursor for select customer.cno,cname,city from 
+account,customer where customer.cno=account.cno and
+customer.city=city_name;
+r record;
+begin
+open c1;
+loop
+fetch c1 into r;
+exit when not found;
+raise notice''% % % '',r.cno,r.cname,r.city;
+end loop;
+close c1;
+end;
+'language 'plpgsql';
+
+
+
+3.
+create or replace function atypedelete() returns trigger as'
+begin
+if(old.a_type=''real'')then
+raise exception ''you cannot  delete a_type'';
+else
+return old;
+end if;
+end;
+'language 'plpgsql';
+
+create or replace trigger t1 before delete on account for each row execute
+procedure atypedelete();
+   
+
+
+                                                                             assignment 7 que 4
+
+
+1. not working
+create or replace function accounttype(account_type varchar(20)) 
+returns void as'
+declare
+r record;
+begin
+select into r * from account where balance>=(select max(balance) 
+from account) and account.a_type=account_type;
+raise notice''%'',r.balance;
+end;
+'language 'plpgsql';
+
+
+
+2.
+answer is same as of question 2 :  sub que 2
+
+
+
+
+3. 
+create or replace function deletebalance() returns trigger as'
+begin
+if(new.balance<500) then
+raise exception ''your balance should not less than be 500'';
+else
+return new;
+end if;
+end;
+'language 'plpgsql';
+
+create or replace trigger t1 before insert on account for each row 
+execute procedure deletebalance();
+
+
+insert into account values(112,'real','10-09-2010',400,2);
+
+
+
+
+
+
+                                                                                                  

@@ -1,0 +1,69 @@
+create table hospital(hno int primary key,
+					 hname varchar(20),
+					 city varchar(20));
+
+create table doctor(dno int primary key,
+				   dname varchar(20),
+				   specialization varchar(20),
+				   charges int,
+				   hno int references hospital on delete cascade);
+
+insert into hospital values(1,'Gaycm hospital','latur');
+insert into hospital values(2,'maurya hospital','pimpri saudagar');
+insert into hospital values(3,'sappu hospital','akalkot');
+insert into hospital values(4,'sp hospital','pune');
+
+insert into doctor values(11,'parth','BHMS',1000,1);
+insert into doctor values(12,'dr aneesh','psychiatry',5000,1);
+insert into doctor values(13,'dr swapnaj','gynologist',10000,2);
+insert into doctor values(14,'dr soham','neurology',20000,2);
+insert into doctor values(15,'dr prashant','dermatology',4000,3);
+insert into doctor values(16,'dr shrikant','surgeon',25000,4);
+
+
+
+1.
+create or replace function checkcharges() returns trigger as'
+begin
+if(new.charges<0) then 
+raise exception'' gives proper fees as per treatment'';
+else
+return new;
+end if;
+end;
+'language 'plpgsql';
+
+create trigger t1 before insert on doctor for each 
+row execute procedure checkcharges();
+
+2.
+
+
+
+
+
+
+
+3.
+create or replace function doctordetail(specialization_name varchar(20)) returns void as'
+declare
+c1 cursor for select doctor.dno,dname,specialization,charges from doctor 
+where doctor.specialization=specialization_name;
+r record;
+begin
+open c1;
+loop
+fetch c1 into r;
+exit when not found;
+raise notice ''% % % % '',r.dno,r.dname,r.specialization,r.charges;
+end loop;
+close c1;
+end;
+'language 'plpgsql';
+
+
+
+
+
+
+

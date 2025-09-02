@@ -1,0 +1,22 @@
+<html>
+<form action='1.php' method='post'>
+    <pre>
+            <h3>OPERATIONS</h3>
+
+            Enter the first string (sentence): <input type='text' name='big_string'><br>
+            Enter the second string (word): <input type='text' name='small_string'><br>
+            
+            1<input type='radio' name='operation' value='1'> Delete a small part of the sentence.<br>
+            2<input type='radio' name='operation' value='2'> Insert the word into the sentence.<br>
+            3<input type='radio' name='operation' value='3'> Replace part of the sentence with the word.<br>
+            
+            <!-- Additional inputs for position and number of characters (for delete or replace) -->
+            Enter position (starting index): <input type='number' name='position'><br>
+            Enter the number of characters (for delete/replace): <input type='number' name='num_chars'><br>
+            
+            <!-- Buttons to submit or reset the form -->
+            <input type='submit' value='ok'> <input type='reset' value='cancel'><br>
+        </pre>
+</form>
+
+</html>

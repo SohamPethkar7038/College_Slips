@@ -1,0 +1,85 @@
+create table movie(mname varchar(20) primary key,
+				  release_year int,
+				  budget int);
+
+create table producer(pid int primary key,
+					 pname varchar(20),
+					 paddress varchar(20));
+
+create table MP(mname varchar(20) references movie on delete cascade,
+			   pid int references producer on delete cascade,
+			   primary key(mname,pid));    
+
+
+insert into movie values('uri',2017,600000);
+insert into movie values('shershah',2020,700000);
+insert into movie values('mission mangal',2019,800000);
+insert into movie values('commando',2018,500000);
+
+
+insert into producer values(1,'soham','chakan');
+insert into producer values(2,'parth','latur');
+insert into producer values(3,'aneesh','pimrpi suadagar');
+insert into producer values(4,'swapnaj','akalkot');
+
+
+insert into MP values('uri',1);
+insert into MP values('uri',2);
+insert into MP values('shershah',3);
+insert into MP values('shershah',4);
+insert into MP values('mission mangal',1);
+insert into MP values('mission mangal',2);
+insert into MP values('commando',3);
+insert into MP values('commando',4);
+insert into MP values('uri',4);
+
+1.
+create or replace function numbermovie1(pid_number) returns int as'
+declare
+r int;
+begin
+select count(movie.mname) into r from movie,producer,MP where 
+movie.mname=MP.mname and producer.pid=MP.pid and producer.pid=pid_number;
+return r;
+end;
+'language 'plpgsql';
+
+
+
+
+
+
+
+
+
+2.
+create function producername(movie_name varchar(20)) returns void as'
+declare
+c1 cursor for select producer.pname from producer,movie,MP where 
+movie.mname=MP.mname and producer.pid=MP.pid and movie.mname=movie_name;
+r record;
+begin
+open c1;
+loop
+fetch c1 into r;
+exit when not found;
+raise notice''%'',r.pname;
+end loop;
+close c1;
+end;
+'language 'plpgsql';
+
+
+3.
+create function checkbudget() returns trigger as'
+begin
+if(new.budget<100000) then
+raise exception''movie should be enough good ,so use more budget'';
+else
+return new;
+end if;
+end;
+'language 'plpgsql';
+
+create trigger t2 before insert on movie for each row execute
+procedure checkbudget();

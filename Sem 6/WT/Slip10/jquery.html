@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insert text</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    
+    <h2>jQuery before() and after() Example </h2>
+    <div>
+        <p>This is a paragraph</p>
+        <button id="insertBefore">Insert Before</button>
+        <button id="insertAfter">Insert After</button>
+    </div>
+
+    <script>
+        $(document).ready(function(){
+$('#insertBefore').click(function(){
+    $("p").before("<span> This text is inserted Before the paragarh<span><br>");
+});
+
+$("#insertAfter").click(function(){
+$("p").after("<span> This text is inserted after the pragarph</span><br>");
+});
+        });
+    </script>
+</body>
+</html>

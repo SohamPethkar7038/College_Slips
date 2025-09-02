@@ -1,0 +1,120 @@
+create table bus(bno int primary key,
+				capacity int,
+				depot_name varchar(20));
+
+create table route(route_no int primary key,
+				  source varchar(20),
+				  destination varchar(20),
+				  no_stations int);
+
+create table br(bno int references bus on delete cascade,
+			   route_no int references route on delete cascade,
+			   primary key(bno,route_no));
+
+
+insert into bus values(1,50,'Khed');
+insert into bus values(2,52,'bhosari');
+insert into bus values(3,51,'katraj');
+insert into bus values(4,55,'kothrud');
+
+
+insert into route values(11,'station','airport',4);
+insert into route values(12,'alandi','swarget',13);
+insert into route values(13,'bhosari','manchar',8);
+insert into route values(14,'swarget','satara',18);
+insert into route values(15,'hinjawadi','manpa',12);
+
+
+
+insert into br values(1,11);
+insert into br values(1,12);
+insert into br values(2,13);
+insert into br values(2,14);
+insert into br values(3,15);
+insert into br values(3,11);
+insert into br values(4,12);
+              
+                                                                                               assign 4 question : 1
+                                                                  
+1.
+create function routedetails2(route_number int) returns void as'
+declare
+rec record;
+begin
+select into rec * from route,bus,br where bus.bno=br.bno and 
+route.route_no=br.route_no and route.route_no=route_number;
+raise notice ''% % % % %'',rec.bno,rec.route_no,rec.source,
+rec.destination,rec.no_stations;
+end;
+'language 'plpgsql';
+
+
+2.
+create function checkStations() returns trigger as'
+begin
+if(new.no_stations<2) then 
+raise exception'' you are sitted  in a wrong bus'';
+else
+return new;
+end if;
+end;
+'language 'plpgsql';
+
+create trigger t3 before insert on route for each 
+row execute procedure checkStations();
+
+
+
+
+3.
+create or replace function  givedetails() returns void as'
+declare
+c1 cursor for select route_no,source,destination,no_stations from route,bus where
+bus.bno=2;
+r record;
+begin
+open c1;
+fetch c1 into r;
+raise notice ''% % % % '',r.route_no,r.source,r.destination,r.no_stations;
+close c1;
+end;
+'language 'plpgsql';
+
+
+
+
+
+                                                                                                      assign 4 question : 2
+
+2.
+create function CheckCapacity() returns trigger as'
+begin
+if(new.capacity<0)then
+raise exception''it is khatara bus '';
+else
+return new;
+end if;
+end;
+'language 'plpgsql'
+
+create trigger t3 before insert on bus for each row execute procedure CheckCapacity();
+
+
+3.
+create or replace function detailbuses() returns void as'
+declare
+c1 cursor for select bus.bno,capacity,depot_name from bus,route,
+BR where bus.bno=BR.bno and route.route_no=BR.route_no
+and route.source=''station'' and route.destination=''airport'';
+r record;
+begin
+open c1;
+loop
+fetch c1 into r;
+exit when not found;
+raise notice'' % % %'',r.bno,r.capacity,r.depot_name;
+end loop;
+close c1;
+end;
+'language 'plpgsql';
+

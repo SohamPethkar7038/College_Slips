@@ -1,0 +1,40 @@
+<html>
+<head>
+    <title>Student Name Input</title>
+   
+<script>
+    function changeStyle(){
+        var name=document.getElementById("name").value;
+        var inputField=document.getElementById("name");
+        var img=document.getElementById("image");
+
+        if(name.trim()!==""){
+            inputField.style.color="red";
+            inputField.style.fontSize="18px";
+            img.style.display="none";
+        }
+        else{
+            img.style.display="block";
+            }
+    }
+
+    function restStyle(){
+        //when page load
+        var img=document.getElementById("image");
+        img.style.display="none";
+    }
+</script>
+</head>
+<body onload="restStyle()">
+<h3>Enter Student Name:</h3>
+<input type="text" id="name" onblur="changeStyle()">
+
+<br> <br>
+
+<img src="sunset.jpg" id="image"
+ onmouseover="this.style.width='200px'" 
+ onmouseup="this.style.width='150px' "
+ onclick="this.style.width='300px' "
+  >
+</body>
+</html>

@@ -1,0 +1,110 @@
+create table movie(mname varchar(20) primary key,
+				  release_year int,
+				  budget money);
+
+
+create table actor(aname varchar(20) primary key,
+				  role varchar(20),
+				  charges money,
+				  add varchar(20));
+
+
+create table MA(mname varchar(20) references movie on delete cascade,
+			   aname varchar(20) references actor on delete cascade,
+			   primary key(mname,aname));
+
+
+insert into movie values('uri',2018,8500000);
+insert into movie values('shershah',2019,7500000);
+insert into movie values('mission mangal',2017,600000);
+insert into movie values('lakshya',2004,400000);
+
+
+insert into actor values('vicky kaushal','major army',1500000,'mumbai');
+insert into actor values('siddarth','captain army',130000,'delhi');
+insert into actor values('akshay kumar','scientist',1700000,'mumbai');
+insert into actor values('rithik roshan','qournal',1600000,'pune');
+
+insert into MA values('uri','vicky kaushal');
+insert into MA values('shershah','siddarth');
+insert into MA values('mission mangal','akshay kumar');
+insert into MA values('lakshya','rithik roshan');
+insert into MA values('uri','akshay kumar');
+insert into MA values('lakshya','vicky kaushal');
+insert into MA values('mission mangal','rithik roshan');
+
+
+                                                                                 assign 6 ques : 1
+          
+1. 
+create function moviedetail(movie_name varchar(20)) returns void as'
+declare
+r record;
+begin
+select into r * from movie,actor,MA where movie.mname=MA.mname and
+actor.aname=MA.aname and movie.mname=movie_name;
+raise notice''%  % '',r.release_year,r.budget;
+end;
+'language 'plpgsql';
+
+
+2.
+create function movienames1(actor_name varchar(20)) returns void as'
+declare
+c1 cursor for select movie.mname  from movie,actor,MA
+where movie.mname=MA.mname and actor.aname=MA.aname  
+and actor.aname=actor_name;
+r record;
+begin
+open c1;
+loop
+fetch c1 into r;
+exit when not found;
+raise notice ''% '',r.mname;
+end loop;
+close c1;
+end;
+'language 'plpgsql';
+
+
+3.
+create function checka_names() returns trigger as'
+begin
+if(old.aname="akshay kumar") then 
+raise exception ''not allowed to delete'';
+else
+return old;
+end if;
+end;
+'language 'plpgsql';
+
+create trigger t3 after delete on actor for each row execute procedure 
+checka_names();
+
+
+                                                                                                                  assign 6 ques : 2
+
+1.
+
+
+2.
+create function actornames(movie_name varchar(20)) returns void as'
+declare
+c1 cursor for select actor.aname from movie,actor,MA
+where movie.mname=MA.mname and actor.aname=MA.aname  
+and movie.mname=movie_name;
+r record;
+begin
+open c1;
+loop
+fetch c1 into r;
+exit when not found;
+raise notice ''%'',r.aname;
+end loop;
+close c1;
+end;
+'language 'plpgsql';
+
+
+3.
+

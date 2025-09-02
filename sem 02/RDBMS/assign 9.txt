@@ -1,0 +1,96 @@
+create table dept(dno int primary key,
+				 dname varchar(20),
+				 city varchar(20));
+
+create table emp(eno int primary key,
+				ename varchar(20),
+				salary int,
+				dno int references dept on delete cascade);
+
+insert into dept values(1,'stat','bhosari');
+insert into dept values(2,'CS','chakan');
+insert into dept values(3,'IT','pimpri');
+insert into dept values(4,'cyber','khed');
+
+insert into emp values(11,'aneesh',50000,1);
+insert into emp values(12,'swapnaj',55000,1);
+insert into emp values(13,'parth',60000,2);
+insert into emp values(14,'soham',70000,2);
+insert into emp values(15,'rahul',75000,3);
+insert into emp values(16,'sahil',80000,3);
+insert into emp values(17,'kishor',45000,4);
+insert into emp values(18,'sagar',55000,4);
+insert into emp values(19,'anirudh',49000,1);
+
+
+1.
+
+
+
+
+
+
+
+
+
+
+
+2.
+
+
+
+
+
+
+
+
+3.
+create or replace function checksalary() returns trigger as'
+begin
+if(new.salary<0) then 
+raise exception''Each worker should get salary'';
+else
+return new;
+end if;
+end;
+'language 'plpgsql';
+
+create or replace trigger t1 before insert on emp for each row 
+execute procedure checksalary();
+
+
+                                                     9 assignment : que =2
+
+
+1.  Not working anymore
+create or replace function avgsalary(dept_name varchar(20)) returns void as'
+declare
+r record;
+begin
+select into r * from dept,emo where dept.dno=emp.dno and 
+salary=(select avg(salary) from emp ) and dept.dname=dept_name;
+raise notice''%'',r.ename;
+end;
+'language 'plpgsql';
+
+
+2.
+create or replace function hremp() returns void as'
+declare
+c1 cursor for select ename from emp,dept where dept.dno=emp.dno 
+and dept.dname=''stat'';
+r record;
+begin
+open c1;
+loop
+fetch c1 into r;
+exit when not found;
+raise notice''%'',r.ename;
+end loop;
+close c1;
+end;
+'language 'plpgsql'
+
+
+3.
+

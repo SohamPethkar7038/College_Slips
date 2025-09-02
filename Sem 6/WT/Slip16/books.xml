@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<books>
+    <book>
+        <title>JavaScript: The Good Parts</title>
+        <author>Douglas Crockford</author>
+        <year>2008</year>
+        <price>30.00</price>
+    </book>
+    <book>
+        <title>Clean Code: A Handbook of Agile Software Craftsmanship</title>
+        <author>Robert C. Martin</author>
+        <year>2008</year>
+        <price>40.00</price>
+    </book>
+    <book>
+        <title>Design Patterns: Elements of Reusable Object-Oriented Software</title>
+        <author>Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides</author>
+        <year>1994</year>
+        <price>50.00</price>
+    </book>
+</books>

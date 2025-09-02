@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Membership form</title>
+    <script>
+        function validateForm(){
+            var username=document.getElementById("username").value;
+            var password=document.getElementById("password").value;
+
+            var usernameRegex=/^[a-zA-Z0-9_]{4,20}$/;
+            var passwordRegex=/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+      
+        if(!usernameRegex.test(username)){
+            alert("Username must be 4-20 characters long and can contain letters,numbers,and underscore.");
+            return false;
+        }
+        if(!passwordRegex.test(password)){
+            alert("Password must contain at least 8 charaters long,with one digit,one lowercase,one uppercase letter.");
+            return false;
+        }
+          alert("From is valid and successfully submited");
+        return true;
+    }
+    </script>
+</head>
+<body>
+    <h2>Membership Form</h2>
+
+    <form onsubmit="return validateForm()">
+        <label for="username">Username:</label><br>
+        <input type="text"  id="username" required><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" required><br>
+        <input type="submit" value="Submit">
+
+    </form>
+</body>
+</html>

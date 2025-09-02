@@ -1,0 +1,58 @@
+create table  teacher(tno int primary key,
+					 tname varchar(20),
+					 age int,
+					 exp int);
+
+create table subject(sno int primary key,
+					sname varchar(20));
+
+create table ts(tno int references teacher on delete cascade,
+			   sno int references subject on delete cascade,
+			   primary key(tno,sno));
+
+
+insert into teacher values(1,'dr patil',27,5);
+insert into teacher values(2,'dr patel',37,15);
+insert into teacher values(3,'prof soham',35,13);
+
+
+insert into subject values(101,'computer');
+insert into subject values(102,'Elect');
+insert into subject values(103,'RDBMS');
+
+insert into ts values(1,101);
+insert into ts values(1,102);
+insert into ts values(2,102);
+insert into ts values(2,103);
+insert into ts values(3,101);
+
+
+1.
+create function DisplayTeachers(subname varchar(20)) returns void as'
+declare
+r record; 
+begin
+select into r* from teacher,subject,ts where teacher.tno=ts.tno 
+and subject.sno=ts.sno and subject.sname=subname;
+raise notice ''%'',r.tname;
+end;
+'language 'plpgsql';
+
+
+2.
+create function checkExp() returns trigger as'
+begin
+if(new.exp<0) then 
+raise exception ''Fresher teacher ,experience should be more 
+for to be called experience teacher'';
+else
+return new;
+end if;
+end;
+'language 'plpgsql';
+
+create trigger t3 before insert on teacher for each 
+row execute procedure checkExp();
+
+3.
+

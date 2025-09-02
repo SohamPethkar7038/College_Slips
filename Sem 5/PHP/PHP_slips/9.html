@@ -1,0 +1,30 @@
+<html>
+<form action="9.php" method="post">
+    <pre>
+            <h3>STRING OPERATIONS WITH SEPARATOR</h3>
+
+            Enter the string: <input type='text' name='input_string'><br>
+            
+            Select the separator: 
+            <select name="separator">
+                <option value="#">#</option>
+                <option value="|">|</option>
+                <option value="%">%</option>
+                <option value="@">@</option>
+                <option value="!">!</option>
+                <option value=",">,</option>
+            </select><br>
+            
+            Enter new separator (for replacement): <input type='text' name='new_separator'><br>
+            
+            <h4>Select the operation:</h4>
+            1 <input type='radio' name='operation' value='1'> Split the string into words.<br>
+            2 <input type='radio' name='operation' value='2'> Replace separator with a new one.<br>
+            3 <input type='radio' name='operation' value='3'> Find the last word in the string.<br>
+            
+        
+            <input type='submit' value='Perform Operation'> <input type='reset' value='Cancel'><br>
+        </pre>
+</form>
+
+</html>

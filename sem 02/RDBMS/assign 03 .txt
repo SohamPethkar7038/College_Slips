@@ -1,0 +1,103 @@
+create the trusted procedural language plpgsql handler plpgsql_call_handler;
+
+create function plpgsql_call_handler() returns language_handler as '$libdir/plpgsql' langauge c;
+
+  
+                                                                                     ASSIGNMENT 03 : QUESTION 1
+
+
+
+create table  teacher(tno int primary key,
+					 tname varchar(20),
+					 age int,
+					 exp int);
+
+create table subject(sno int primary key,
+					sname varcar(20));
+
+create table ts(tno int references teacher on delete cascade,
+			   sno int references subject on delete cascade,
+			   primary key(tno,sno));
+
+
+insert into teacher values(1,'dr patil',27,5);
+insert into teacher values(2,'dr patel',37,15);
+insert into teacher values(3,'prof soham',35,13);
+
+
+insert into subject values(101,'computer');
+insert into subject values(102,'Elect');
+insert into subject values(103,'RDBMS');
+
+insert into ts values(1,101);
+insert into ts values(1,102);
+insert into ts values(2,102);
+insert into ts values(2,103);
+insert into ts values(3,101);
+
+
+ 1.     create function expteacher() returns void as'
+declare
+r record;
+begin
+select into r* from teacher where exp>=(select max(exp) from teacher);
+raise notice ''% % % %'',r.tno,r.tname,r.age,r.exp;
+end;
+'language 'plpgsql';
+
+
+2.  create function teachername(subname varchar(20)) returns void as'
+declare
+c1 cursor for select tname from teacher ,subject,ts where teacher.tno=ts.tno and 
+subject.sno=ts.sno and sname=subname;
+r record;
+begin
+open c1;
+loop
+fetch c1 into r;
+exit when not found;
+raise notice ''%'',r.tname;
+end loop;
+close c1;
+end;
+'language 'plpgsql'; 
+
+
+3.  create function checkAge() returns trigger as'
+begin
+if(new.age<21) then
+raise exception ''Minimum age for having job of teacher should be greater than 21'';
+else
+return new;
+end if;
+end;
+'language 'plpgsql';
+
+create trigger t2 before insert on teacher for each row execute procedure checkAge();
+
+
+                                                           ASSIGNMENT -03   : QUESTION -2
+1.
+create function DisplayTeachers(subname varchar(20)) returns void as'
+declare
+r record; 
+begin
+select into r* from teacher,subject,ts where teacher.tno=ts.tno 
+and subject.sno=ts.sno and subject.sname=subname;
+raise notice ''%'',r.tname;
+end;
+'language 'plpgsql';
+
+2.
+create function checkExp() returns trigger as'
+begin
+if(new.exp<0) then 
+raise exception ''Fresher teacher ,experience should be more 
+for to be called experience teacher'';
+else
+return new;
+end if;
+end;
+'language 'plpgsql';
+
+create trigger t3 before insert on teacher for each row execute procedure checkExp();

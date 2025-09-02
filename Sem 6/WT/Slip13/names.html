@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Greetings</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#nameInput").keyup(function(){
+                var name = $(this).val().trim();
+
+                if (name === "") {
+                    $("#response").text("Stranger, please tell me your name!");
+                } 
+                else if (name === "Rohit" || name === "Virat" || name === "Dhoni" || name === "Ashwin" || name === "Harbhajan") {
+                    $("#response").text("Hello, master!");
+                } 
+                else {
+                    $("#response").text("Sorry, I don't know you!");
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+
+<h2>Greetings</h2>
+<p>Please enter your name:</p>
+<input type="text" id="nameInput">
+<p id="response"></p>
+
+</body>
+</html>

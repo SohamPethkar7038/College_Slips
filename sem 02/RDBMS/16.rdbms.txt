@@ -1,0 +1,90 @@
+create table supplier(sno int primary key,
+					 sname varchar(20),
+					 add varchar(20),
+					 city varchar(20),
+					 phone_no numeric);
+
+create table part(pid int primary key,
+				 pname varchar(20),
+				 weight float,
+				 unit int,
+				 color varchar(20));
+
+
+create table suppart(sno int references supplier on delete cascade,
+					pid int references part on delete cascade,
+					quantity int,
+					primary key(sno,pid));
+
+insert into part values(11,'gun powder','120',21,'black');
+insert into part values(12,'rdx','121',22,'gray');
+insert into part values(13,'scope',122,23,'green');
+insert into part values(14,'muzzle',123,24,'blue');
+
+
+insert into supplier values(1,'aneesh','pratapgad','kanpur',1234567890);
+insert into supplier values(2,'swapnaj','akalkot','solapur',2345678901);
+insert into supplier values(3,'parth','nilanga','latur',3456789012);
+insert into supplier values(4,'soham','chakan','pune',4567890123);
+
+
+insert into suppart values(1,11,300);
+insert into suppart values(1,12,301);
+insert into suppart values(2,13,302);
+insert into suppart values(2,14,303);
+insert into suppart values(3,11,304);
+insert into suppart values(3,12,305);
+insert into suppart values(4,13,306);
+insert into suppart values(4,14,307);
+
+1.
+create or replace function numberparts() returns int as'
+declare
+r int;
+begin
+select count(supplier.sno) into r from supplier,part,suppart where supplier.sno=
+suppart.sno and part.pid=suppart.pid and pname=''rdx'';
+return r;
+end;
+'language 'plpgsql';
+
+
+
+
+2.
+create or replace function citydetails(city_name varchar(20)) returns void as'
+declare
+c1 cursor for select sname from supplier where city=city_name;
+r record;
+begin
+open c1;
+loop
+fetch c1 into r;
+exit when not found;
+raise notice''%'',r.sname;
+end loop;
+close c1;
+end;
+'language 'plpgsql';
+
+3.
+create or replace function checkquantity() returns trigger as'
+begin
+if(new.quantity<299)then
+raise exception''quantity should be more'';
+else
+return new;
+end if;
+end;
+'language 'plpgsql';
+
+create or replace trigger t1 before insert on suppart
+ for each row execute procedure checkquantity();
+
+
+
+
+
+ 
+
+
